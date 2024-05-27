@@ -1,9 +1,13 @@
+# Use the official Alpine base image
 FROM alpine:3.14
 
-# RUN apk update && apk add nginx
+RUN apk update && apk upgrade && apk add \
+    openssl \
+    nginx \
+    curl \
+    vim \
+    sudo
 
-# COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+EXPOSE 443 80
 
-# EXPOSE 443
-
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
