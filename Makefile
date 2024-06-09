@@ -3,15 +3,18 @@ PATH_INCEPTION := .
 
 wp_volume=/home/${USER}/data/wordpress
 mariadb_volume=/home/${USER}/data/mariadb
+redis_volume=/home/${USER}/data/redis
 
 ${NAME}:
 	mkdir -p $(wp_volume)
 	mkdir -p $(mariadb_volume)
+	mkdir -p $(redis_volume)
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml up --build 
 
 up:
 	mkdir -p $(wp_volume)
 	mkdir -p $(mariadb_volume)
+	mkdir -p $(redis_volume)
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml up -d --build 
 
 down:

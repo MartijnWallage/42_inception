@@ -25,6 +25,7 @@ services:
     depends_on:
       - "wordpress"
     volumes:
+      - ./requirements/bonus/static_site:/usr/share/nginx/html/static_site
       - wordpress:/var/www/wordpress
     build:
       context: requirements/nginx
@@ -55,10 +56,68 @@ services:
       - wp_user_password
     restart: on-failure
     depends_on:
-      - "mariadb"
+      - mariadb
+      - redis
     expose:
       - "9000"
   
+  redis:
+    container_name: redis
+    networks:
+      - inception
+    volumes:
+      - redis_data:/data
+    build:
+      context: requirements/bonus/redis
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: on-failure
+
+  ftp:
+    container_name: ftp
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/wordpress
+      - ./requirements/bonus/static_site:/home/mwallage/static_site
+    build:
+      context: requirements/bonus/ftp
+      dockerfile: Dockerfile
+    env_file:
+      - ftp.env
+    restart: on-failure
+    ports:
+      - "21:21"
+      - "20:20"
+      - "30000-30009:30000-30009"
+    
+  static_site:
+    container_name: static_site
+    networks:
+      - inception
+    build:
+      context: requirements/bonus/static_site
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "8080:80"
+
+  adminer:
+    container_name: adminer
+    networks:
+      - inception
+    build:
+      context: requirements/bonus/adminer
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "8081:8080"
+
 volumes:
   wordpress:
     driver: local
@@ -73,6 +132,13 @@ volumes:
       type: none
       o: bind
       device: '/home/mwallage/data/mariadb'
+
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/mwallage/data/redis'
     
 secrets:
   db_user:
