@@ -122,6 +122,28 @@ services:
     ports:
       - "8090:8080"
 
+  prometheus:
+    build:
+      context: requirements/bonus/prometheus
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+    networks:
+      - inception
+
+  grafana:
+    build:
+      context: requirements/bonus/grafana
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    networks:
+      - inception
+
 volumes:
   wordpress:
     driver: local
@@ -143,6 +165,13 @@ volumes:
       type: none
       o: bind
       device: '/home/mwallage/data/redis'
+
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/mwallage/data/prometheus'
     
 secrets:
   db_user:
