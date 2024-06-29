@@ -1,4 +1,5 @@
 #!/bin/bash
+trap "exit" TERM
 
 sleep 20
 
