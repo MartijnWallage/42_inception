@@ -24,6 +24,7 @@ services:
       - inception
     depends_on:
       - "wordpress"
+      - "adminer"
     volumes:
       - ./requirements/bonus/static_site:/usr/share/nginx/html/static_site
       - wordpress:/var/www/wordpress
@@ -115,9 +116,11 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
     restart: on-failure
     ports:
-      - "8081:8080"
+      - "8090:8080"
 
 volumes:
   wordpress:
