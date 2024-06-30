@@ -29,20 +29,6 @@ stop:
 start:
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml start
 
-rm_volume:
-	@if docker volume inspect srcs_mariadb >/dev/null 2>&1; then \
-	docker volume rm srcs_mariadb; \
-		fi
-	@if docker volume inspect srcs_wordpress >/dev/null 2>&1; then \
-	docker volume rm srcs_wordpress; \
-		fi
-	@if docker volume inspect srcs_redis_data >/dev/null 2>&1; then \
-	docker volume rm srcs_redis_data; \
-		fi
-	@if docker volume inspect srcs_prometheus_data >/dev/null 2>&1; then \
-	docker volume rm srcs_prometheus_data; \
-		fi
-	
 rm_network:
 	docker network prune -f
 
@@ -52,15 +38,14 @@ rm_container:
 rm_image:
 	docker image prune -f
 
+rm_volume:
+	docker volume prune -af
+
 rm_system:
 	docker system prune -af
 
 clean: down rm_image rm_container rm_network rm_system
 
-fclean: down rm_image rm_container rm_volume rm_network rm_system 
-	sudo rm -rf $(wp_volume)
-	sudo rm -rf $(mariadb_volume)
-	sudo rm -rf $(redis_volume)
-	sudo rm -rf $(prometheus_volume)
+fclean: down rm_image rm_container rm_network rm_volume rm_system
 
 re: fclean ${NAME}

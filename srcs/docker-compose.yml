@@ -92,7 +92,7 @@ services:
     ports:
       - "21:21"
       - "20:20"
-      - "30000-30009:30000-30009"
+      - "30001-30009:30001-30009"
     
   static_site:
     container_name: static_site
@@ -139,6 +139,9 @@ services:
       context: requirements/bonus/grafana
       dockerfile: Dockerfile
     restart: on-failure
+    secrets:
+      - grafana_admin
+      - grafana_password
     ports:
       - "3000:3000"
     networks:
@@ -192,6 +195,10 @@ secrets:
     file: ../secrets/ftp_user.txt
   ftp_password:
     file: ../secrets/ftp_password.txt
+  grafana_admin:
+    file: ../secrets/grafana_admin.txt
+  grafana_password:
+    file: ../secrets/grafana_password.txt
 
 networks:
   inception:
