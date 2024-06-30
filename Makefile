@@ -6,6 +6,8 @@ mariadb_volume=/home/${USER}/data/mariadb
 redis_volume=/home/${USER}/data/redis
 prometheus_volume=/home/${USER}/data/prometheus
 
+all: ${NAME}
+
 ${NAME}:
 	mkdir -p $(wp_volume)
 	mkdir -p $(mariadb_volume)
@@ -29,6 +31,14 @@ stop:
 start:
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml start
 
+restart: down up
+
+logs:
+	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml logs
+
+ps:
+	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml ps
+
 rm_network:
 	docker network prune -f
 
@@ -49,3 +59,5 @@ clean: down rm_image rm_container rm_network rm_system
 fclean: down rm_image rm_container rm_network rm_volume rm_system
 
 re: fclean ${NAME}
+
+.PHONY: all up down restart logs ps build clean fclean re

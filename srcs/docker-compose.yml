@@ -36,6 +36,7 @@ services:
     restart: on-failure
     ports:
       - "443:443"
+      - "8080:8080"
   
   wordpress:
     container_name: wordpress
@@ -105,7 +106,7 @@ services:
       - .env
     restart: on-failure
     ports:
-      - "8080:80"
+      - "8081:80"
 
   adminer:
     container_name: adminer
@@ -121,6 +122,15 @@ services:
     restart: on-failure
     ports:
       - "8090:8080"
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.9.0
+    command: ["-nginx.scrape-uri", "http://nginx:8080/metrics"]
+    depends_on:
+      - nginx
+    restart: on-failure
+    networks:
+      - inception
 
   prometheus:
     build:
