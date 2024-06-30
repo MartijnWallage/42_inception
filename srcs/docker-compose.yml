@@ -93,7 +93,7 @@ services:
     ports:
       - "21:21"
       - "20:20"
-      - "30001-30009:30001-30009"
+      - "30000-30009:30000-30009"
     
   static_site:
     container_name: static_site
@@ -124,8 +124,9 @@ services:
       - "8090:8080"
 
   nginx-exporter:
-    image: nginx/nginx-prometheus-exporter:0.9.0
-    command: ["-nginx.scrape-uri", "http://nginx:8080/metrics"]
+    build:
+      context: requirements/bonus/nginx-exporter
+      dockerfile: Dockerfile
     depends_on:
       - nginx
     restart: on-failure
@@ -152,6 +153,8 @@ services:
     secrets:
       - grafana_admin
       - grafana_password
+    volumes:
+      - grafana_data:/var/lib/grafana
     ports:
       - "3000:3000"
     networks:
@@ -185,6 +188,13 @@ volumes:
       type: none
       o: bind
       device: '/home/mwallage/data/prometheus'
+    
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '/home/mwallage/data/grafana'
     
 secrets:
   db_user:
