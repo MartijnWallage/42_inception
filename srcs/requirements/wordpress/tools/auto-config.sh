@@ -9,7 +9,7 @@ cd var/
 
 wp config create --allow-root \
                 --dbname=$MYSQL_DATABASE --dbuser=$(<"/run/secrets/db_user") \
-                --dbpass=$(<"/run/secrets/db_password") --dbhost=mariadb:3306 \
+                --dbpass=$(<"/run/secrets/db_password") --dbhost=$MYSQL_HOSTNAME:3306 \
                 --path=$WP_PATH
 
 echo "wp core install......."

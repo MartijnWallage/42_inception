@@ -4,6 +4,7 @@ FROM debian:bullseye-slim
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     wget \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and extract nginx-exporter binary
@@ -17,3 +18,5 @@ EXPOSE 9113
 
 # Command to run nginx-exporter
 CMD ["/usr/local/bin/nginx-prometheus-exporter", "-nginx.scrape-uri", "http://nginx:8080/metrics"]
+
+ENTRYPOINT [ "tini", "--" ]

@@ -15,6 +15,4 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 COPY tools/auto-config.sh /auto-config.sh
 RUN chmod +x /auto-config.sh
 
-ENTRYPOINT [ "tini", "--" ]
-
-CMD "/auto-config.sh"
+ENTRYPOINT [ "tini", "--", "/auto-config.sh" ]

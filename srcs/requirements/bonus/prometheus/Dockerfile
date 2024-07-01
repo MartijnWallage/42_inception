@@ -9,6 +9,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        wget \
        ca-certificates \
+       tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Prometheus
@@ -24,8 +25,11 @@ COPY ./conf/prometheus.yml /etc/prometheus/
 
 # Prometheus configuration
 EXPOSE 9090
-ENTRYPOINT [ "/usr/local/bin/prometheus" ]
-CMD [ "--config.file=/etc/prometheus/prometheus.yml", \
-      "--storage.tsdb.path=/prometheus", \
-      "--web.console.libraries=/usr/share/prometheus/console_libraries", \
-      "--web.console.templates=/usr/share/prometheus/consoles" ]
+
+ENTRYPOINT [ "tini", "--" ]
+
+CMD [ "/usr/local/bin/prometheus", \
+"--config.file=/etc/prometheus/prometheus.yml", \
+"--storage.tsdb.path=/prometheus", \
+"--web.console.libraries=/usr/share/prometheus/console_libraries", \
+"--web.console.templates=/usr/share/prometheus/consoles" ]

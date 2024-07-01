@@ -16,6 +16,4 @@ WORKDIR /var/www/html
 
 EXPOSE 8080
 
-ENTRYPOINT [ "tini", "--" ]
-
-CMD ["php", "-d", "display_errors=1", "-S", "0.0.0.0:8080"]
+ENTRYPOINT [ "tini", "--", "php", "-d", "display_errors=1", "-S", "0.0.0.0:8080" ]

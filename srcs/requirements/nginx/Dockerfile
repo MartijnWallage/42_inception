@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update -y && apt upgrade -y && apt install -y nginx
+RUN apt update -y && apt upgrade -y && apt install -y nginx tini
 RUN mkdir -p /etc/nginx/ssl && mkdir -p /var/www/html
 RUN apt install openssl -y
 
@@ -12,4 +12,4 @@ RUN chmod 755 /var/www/html
 
 RUN chown -R www-data:www-data /var/www/html
 
-ENTRYPOINT  [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT  [ "tini", "--", "nginx", "-g", "daemon off;"]

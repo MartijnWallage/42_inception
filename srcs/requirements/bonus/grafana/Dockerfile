@@ -8,6 +8,7 @@ RUN apt-get update \
        ca-certificates \
        libfontconfig1 \
        adduser \
+       tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install Grafana
@@ -28,4 +29,5 @@ USER grafana
 
 # Grafana configuration
 EXPOSE 3000
-CMD [ "/usr/sbin/grafana-server", "--config=/etc/grafana/grafana.ini",  "--homepath=/usr/share/grafana", "cfg:default.paths.logs=/var/log/grafana", "cfg:default.paths.data=/var/lib/grafana", "cfg:default.paths.plugins=/var/lib/grafana/plugins" ]
+
+ENTRYPOINT [ "tini", "--", "/usr/sbin/grafana-server", "--config=/etc/grafana/grafana.ini",  "--homepath=/usr/share/grafana", "cfg:default.paths.logs=/var/log/grafana", "cfg:default.paths.data=/var/lib/grafana", "cfg:default.paths.plugins=/var/lib/grafana/plugins" ]

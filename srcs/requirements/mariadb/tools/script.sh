@@ -1,5 +1,4 @@
 #!/bin/bash
-trap "exit" TERM
 
 echo "start mariadb"
 service mariadb start;
