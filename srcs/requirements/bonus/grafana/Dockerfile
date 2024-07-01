@@ -1,9 +1,6 @@
 # Use debian:bullseye-slim as the base image
 FROM debian:bullseye-slim
 
-# Metadata
-LABEL maintainer="Me <my.email@example.com>"
-
 # Install necessary packages (Grafana dependencies)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

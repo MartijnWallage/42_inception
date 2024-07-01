@@ -3,26 +3,26 @@ PATH_INCEPTION := .
 
 wp_volume=/home/${USER}/data/wordpress
 mariadb_volume=/home/${USER}/data/mariadb
-redis_volume=/home/${USER}/data/redis
 prometheus_volume=/home/${USER}/data/prometheus
 grafana_volume=/home/${USER}/data/grafana
+redis_volume=/home/${USER}/data/redis
 
 all: ${NAME}
 
 ${NAME}:
 	mkdir -p $(wp_volume)
 	mkdir -p $(mariadb_volume)
-	mkdir -p $(redis_volume)
 	mkdir -p $(prometheus_volume)
 	mkdir -p $(grafana_volume)
+	mkdir -p $(redis_volume)
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml up --build 
 
 up:
 	mkdir -p $(wp_volume)
 	mkdir -p $(mariadb_volume)
-	mkdir -p $(redis_volume)
 	mkdir -p $(prometheus_volume)
 	mkdir -p $(grafana_volume)
+	mkdir -p $(redis_volume)
 	docker compose -f $(PATH_INCEPTION)/srcs/docker-compose.yml up -d --build 
 
 down:
