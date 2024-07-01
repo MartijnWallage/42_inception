@@ -17,6 +17,4 @@ RUN wget -O nginx-exporter.tar.gz https://github.com/nginxinc/nginx-prometheus-e
 EXPOSE 9113
 
 # Command to run nginx-exporter
-CMD ["/usr/local/bin/nginx-prometheus-exporter", "-nginx.scrape-uri", "http://nginx:8080/metrics"]
-
-ENTRYPOINT [ "tini", "--" ]
+ENTRYPOINT [ "tini", "--", "/usr/local/bin/nginx-prometheus-exporter", "-nginx.scrape-uri", "http://nginx:8080/metrics"]

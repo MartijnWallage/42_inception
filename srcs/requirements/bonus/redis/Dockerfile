@@ -7,8 +7,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/redis.conf /usr/local/etc/redis/redis.conf
 
-ENTRYPOINT [ "tini", "--" ]
-
-CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+ENTRYPOINT [ "tini", "--", "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
 # CMD ["sh", "/tmp/redis.sh"]

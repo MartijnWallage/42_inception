@@ -19,4 +19,4 @@ RUN apt-get update && \
 COPY ./html /var/www/html
 
 # Start lighttpd service
-CMD [ "tini", "--", "lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+ENTRYPOINT [ "tini", "--", "lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]

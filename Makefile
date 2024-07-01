@@ -63,9 +63,4 @@ fclean: down rm_image rm_container rm_network rm_volume rm_system
 
 re: fclean ${NAME}
 
-.PHONY: inception
-
-inception:
-	@trap 'echo "Stopping..."; docker-compose down' SIGINT;
-
 .PHONY: all up down restart logs ps build clean fclean re

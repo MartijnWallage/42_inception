@@ -26,9 +26,7 @@ COPY ./conf/prometheus.yml /etc/prometheus/
 # Prometheus configuration
 EXPOSE 9090
 
-ENTRYPOINT [ "tini", "--" ]
-
-CMD [ "/usr/local/bin/prometheus", \
+ENTRYPOINT [ "tini", "--", "/usr/local/bin/prometheus", \
 "--config.file=/etc/prometheus/prometheus.yml", \
 "--storage.tsdb.path=/prometheus", \
 "--web.console.libraries=/usr/share/prometheus/console_libraries", \
