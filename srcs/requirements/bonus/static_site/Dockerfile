@@ -1,22 +1,9 @@
-#FROM nginx:1.26.1
-
-#RUN apt-get update && apt-get install -y \
- #   tini \
-  #  && rm -rf /var/lib/apt/lists/*
-
-#COPY ./html /usr/share/nginx/html
-
-# Dockerfile
-
 FROM debian:bullseye-slim
 
-# Install necessary packages
 RUN apt-get update && \
-    apt-get install -y curl lighttpd tini && \
+    apt-get install -y curl lighttpd tini git && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy static website files to /var/www/html
-COPY ./html /var/www/html
+RUN git clone https://github.com/MartijnWallage/MartijnWallage.github.io.git html
 
-# Start lighttpd service
 ENTRYPOINT [ "tini", "--", "lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
