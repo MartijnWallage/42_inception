@@ -18,10 +18,10 @@ A LEMP stack in Docker.
 ## Bonus
 
 - Redis cache
-- Ftp
-- Adminer (gui for MariaDB)
+- FTP
+- Adminer (GUI for MariaDB)
 - A static website
 - Another service of my choice, actually three:
-  - nginx-exporter
-  - Prometheus
-  - Grafana
+  - nginx-exporter, for exporting nginx metrics
+  - Prometheus, for organising those metrics
+  - Grafana, for displaying those metrics in nice graphs
